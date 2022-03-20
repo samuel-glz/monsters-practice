@@ -1,46 +1,48 @@
+import React, { Component } from "react";
 
-import { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+// https://randomuser.me/api/?results=50
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      name: { firstname: 'Samuel', lastname: 'Gonzalez' },
-      occupation: 'Developer'
+      count: 0,
+      people: []
     }
   }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Name: {this.state.name.firstname} {this.state.name.lastname}. <br></br>Occupation: {this.state.occupation}
-          </p>
-          <div>
-            <button
-              className='mr-2'
-              onClick={() => {
-                this.setState(
-                  () => {
-                    return {
-                      name: {firstname: 'John', lastname: 'Wick'},
-                      occupation: 'Assassin'
-                    }
-                  },
-                  () => {
-                    console.log(this.state.name)
-                  }
-                )
-              }}>
-              Change Person
-            </button>
-          </div>
-        </header>
+      <div>
+        <div>Count: {this.state.count}</div>
+        <button
+          onClick={() => {
+            this.setState({
+              count: this.state.count + 1
+            })
+          }}
+        >Increase Count
+        </button>
+
+        <button
+          onClick={async () => {
+            const url = 'https://randomuser.me/api/?results=50'
+            const response = await fetch(url)
+            const data = await response.json()
+            this.setState({
+              people: data.results.map(person => {
+                
+              })
+            }, () => {
+              console.log(this.state.people)
+            }
+            )
+          }}
+        >Generate people
+        </button>
+
       </div>
-    );
+    )
   }
 }
 
